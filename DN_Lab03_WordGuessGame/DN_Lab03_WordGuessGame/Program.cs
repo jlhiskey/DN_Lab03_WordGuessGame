@@ -8,8 +8,12 @@ namespace DN_Lab03_WordGuessGame
         static void Main(string[] args)
         {
             string filePath = "../../../assets/wordList.txt";
-            //CreateFile(filePath);
+            string content = "hello";
+            string newWord = "world";
+            CreateFile(filePath, content);
+            AppendToFile(filePath, newWord);
             ReadFile(filePath);
+            Console.ReadLine();
         }
 
         //Home Navigation
@@ -67,7 +71,7 @@ namespace DN_Lab03_WordGuessGame
         //Helper Methods-----------------------------------------------
 
         //CreateFile
-        static void CreateFile(string filePath)
+        static void CreateFile(string filePath, string content)
         {
             try
             {
@@ -75,7 +79,7 @@ namespace DN_Lab03_WordGuessGame
                 {
                     try
                     {
-                        streamWriter.WriteLine("hello world");
+                        streamWriter.Write($"{content}");
                     }
                     catch (Exception)
                     {
@@ -130,6 +134,21 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //AppendFile
+        static void AppendToFile(string filePath, string newWord)
+        {
+            try
+            {
+                using (StreamWriter streamWriter = File.AppendText(filePath))
+                {
+                    streamWriter.Write($" {newWord}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+        }
 
         //DeleteFile
 
