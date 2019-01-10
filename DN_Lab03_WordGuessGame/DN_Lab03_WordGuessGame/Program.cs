@@ -8,12 +8,16 @@ namespace DN_Lab03_WordGuessGame
         public static void Main(string[] args)
         {
             string filePath = "../../../assets/wordList.txt";
-            string content = "hello";
-            string newWord = "world";
-            //CreateFile(filePath, content);
-            //AppendToFile(filePath, newWord);
-            //ReadFile(filePath);
-            RandomWord(filePath);
+            string initialContent = "josie cat";
+            
+
+            // Initalized wordList file when application is loaded.
+            CheckForWordList(filePath, initialContent);
+
+            //Testing Area
+            UI_ShowExistingWords(filePath);
+
+            
             Console.ReadLine();
         }
 
@@ -173,8 +177,45 @@ namespace DN_Lab03_WordGuessGame
         //Modify Word List Methods---------------------------------------------
 
         //Create New wordList if File Doesn't Exist
+        public static bool CheckForWordList(string filePath, string content)
+        {
+            try
+            {   
+                if (!File.Exists(filePath))
+                {
+                    CreateFile(filePath, content);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From CheckForWordList()");
+                throw;
+            }
+        }
 
         //Show Existing Words
+        public static int UI_ShowExistingWords(string filePath)
+        {
+            try
+            {
+                string[] words = SplitWords(filePath);
+                Console.WriteLine("Here are the words you currently have saved:");
+                for (int i = 0; i < words.Length; i++)
+                {
+                    Console.WriteLine(words[i]);
+                }
+                return words.Length;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From UI_ShowExistingWords()");
+                throw;
+            }
+            
+        }
 
         //Add New Words to List
 
