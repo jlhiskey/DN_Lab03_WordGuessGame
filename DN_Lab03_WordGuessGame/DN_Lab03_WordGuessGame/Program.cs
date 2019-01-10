@@ -10,9 +10,10 @@ namespace DN_Lab03_WordGuessGame
             string filePath = "../../../assets/wordList.txt";
             string content = "hello";
             string newWord = "world";
-            CreateFile(filePath, content);
-            AppendToFile(filePath, newWord);
-            ReadFile(filePath);
+            //CreateFile(filePath, content);
+            //AppendToFile(filePath, newWord);
+            //ReadFile(filePath);
+            SplitWords(filePath);
             Console.ReadLine();
         }
 
@@ -111,26 +112,20 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //ReadFile
-        static void ReadFile(string filePath)
+        static string[] ReadFile(string filePath)
         {
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    Console.WriteLine(lines[i]);
-                }
-
-                foreach (string line in lines)
-                {
-                    Console.WriteLine(line);
-                }
+                
+                return lines;
             }
             catch (Exception e)
             {
                 Console.Write(e);
                 throw;
             }
+            
         }
 
         //AppendFile
@@ -166,6 +161,43 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //SplitWords
+        static string[] SplitWords(string filePath)
+        {
+            // Using space as my delimiter. Might add more if needed.
+            char[] delimiterCharacters = { ' ' };
+            try
+            {
+                string wordsFromFile = ParseReadFile(ReadFile(filePath));
+                string[] words = wordsFromFile.Split(delimiterCharacters);
+
+                return words;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+            
+        }
+        //Parsing ReadFile Input into strings
+        static string ParseReadFile(string[] inputArray)
+        {
+            string parsedData = "";
+            try
+            {
+                for (int i = 0; i < inputArray.Length; i++)
+                {
+                    parsedData = parsedData + inputArray[i];
+                }
+                return parsedData;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+            
+        }
 
     }
 }
