@@ -5,7 +5,7 @@ namespace DN_Lab03_WordGuessGame
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             string filePath = "../../../assets/wordList.txt";
             string content = "hello";
@@ -13,13 +13,13 @@ namespace DN_Lab03_WordGuessGame
             //CreateFile(filePath, content);
             //AppendToFile(filePath, newWord);
             //ReadFile(filePath);
-            SplitWords(filePath);
+            RandomWord(filePath);
             Console.ReadLine();
         }
 
         //Home Navigation
 
-            //Modify Word List
+            //Word List
 
                 //View Words Link
 
@@ -71,8 +71,10 @@ namespace DN_Lab03_WordGuessGame
 
         //Helper Methods-----------------------------------------------
 
+        // File Methods------------------------------------------------
+
         //CreateFile
-        static void CreateFile(string filePath, string content)
+        public static void CreateFile(string filePath, string content)
         {
             try
             {
@@ -82,9 +84,10 @@ namespace DN_Lab03_WordGuessGame
                     {
                         streamWriter.Write($"{content}");
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-
+                        Console.Write(e);
+                        Console.Write("From CreateFile");
                         throw;
                     }
                 }
@@ -92,27 +95,31 @@ namespace DN_Lab03_WordGuessGame
             catch (IOException e)
             {
                 Console.Write(e);
+                Console.Write("From CreateFile");
                 throw;
             }
             catch (NotSupportedException e)
             {
                 Console.Write(e);
+                Console.Write("From CreateFile");
                 throw;
             }
             catch (AccessViolationException e)
             {
                 Console.Write(e);
+                Console.Write("From CreateFile");
                 throw;
             }
             catch (Exception e)
             {
                 Console.Write(e);
+                Console.Write("From CreateFile");
                 throw;
             }
         }
 
         //ReadFile
-        static string[] ReadFile(string filePath)
+        public static string[] ReadFile(string filePath)
         {
             try
             {
@@ -123,13 +130,14 @@ namespace DN_Lab03_WordGuessGame
             catch (Exception e)
             {
                 Console.Write(e);
+                Console.Write("From ReadFile");
                 throw;
             }
             
         }
-
+        
         //AppendFile
-        static void AppendToFile(string filePath, string newWord)
+        public static void AppendToFile(string filePath, string newWord)
         {
             try
             {
@@ -141,12 +149,13 @@ namespace DN_Lab03_WordGuessGame
             catch (Exception e)
             {
                 Console.Write(e);
+                Console.Write("From AppendToFile");
                 throw;
             }
         }
 
         //DeleteFile
-        static void DeleteFile(string filePath)
+        public static void DeleteFile(string filePath)
         {
             try
             {
@@ -156,31 +165,26 @@ namespace DN_Lab03_WordGuessGame
             catch (Exception e)
             {
                 Console.Write(e);
+                Console.Write("From DeleteFile()");
                 throw;
             }
         }
 
-        //SplitWords
-        static string[] SplitWords(string filePath)
-        {
-            // Using space as my delimiter. Might add more if needed.
-            char[] delimiterCharacters = { ' ' };
-            try
-            {
-                string wordsFromFile = ParseReadFile(ReadFile(filePath));
-                string[] words = wordsFromFile.Split(delimiterCharacters);
+        //Modify Word List Methods---------------------------------------------
 
-                return words;
-            }
-            catch (Exception e)
-            {
-                Console.Write(e);
-                throw;
-            }
-            
-        }
-        //Parsing ReadFile Input into strings
-        static string ParseReadFile(string[] inputArray)
+        //Create New wordList if File Doesn't Exist
+
+        //Show Existing Words
+
+        //Add New Words to List
+
+        //Remove Words from List
+
+
+        //Game Methods---------------------------------------------------------
+
+        //Parses ReadFile Output into strings
+        private static string ParseReadFile(string[] inputArray)
         {
             string parsedData = "";
             try
@@ -194,10 +198,49 @@ namespace DN_Lab03_WordGuessGame
             catch (Exception e)
             {
                 Console.Write(e);
+                Console.Write("From ParsedReadFile");
+                throw;
+            }
+
+        }
+
+        //SplitWords
+        public static string[] SplitWords(string filePath)
+        {
+            // Using space as my delimiter. Might add more if needed.
+            char[] delimiterCharacters = { ' ' };
+            try
+            {
+                string wordsFromFile = ParseReadFile(ReadFile(filePath));
+                string[] words = wordsFromFile.Split(delimiterCharacters);
+
+                return words;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From SplitWords()");
                 throw;
             }
             
         }
-
+        //Select a Random Word frow SplitWords Output
+        public static string RandomWord(string filePath)
+        {
+            try
+            {
+                Random rand = new Random();
+                string[] words = SplitWords(filePath);
+                string randomWord = words[rand.Next(words.Length)];
+                return randomWord;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From RandomWord()");
+                throw;
+            }
+        }
+        
     }
 }
