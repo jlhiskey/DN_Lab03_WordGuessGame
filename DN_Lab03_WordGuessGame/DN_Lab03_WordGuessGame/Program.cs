@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace DN_Lab03_WordGuessGame
 {
@@ -7,15 +8,15 @@ namespace DN_Lab03_WordGuessGame
     {
         public static void Main(string[] args)
         {
-            string filePath = "../../../assets/wordList.txt";
+            string _filePath = "../../../assets/wordList.txt";
             string initialContent = "josie cat";
             
 
             // Initalized wordList file when application is loaded.
-            CheckForWordList(filePath, initialContent);
+            CheckForWordList(_filePath, initialContent);
 
             //Testing Area
-            UI_ShowExistingWords(filePath);
+            UI_AddNewWord(_filePath);
 
             
             Console.ReadLine();
@@ -174,13 +175,11 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Modify Word List Methods---------------------------------------------
-
         //Create New wordList if File Doesn't Exist
         public static bool CheckForWordList(string filePath, string content)
         {
             try
-            {   
+            {
                 if (!File.Exists(filePath))
                 {
                     CreateFile(filePath, content);
@@ -194,6 +193,10 @@ namespace DN_Lab03_WordGuessGame
                 throw;
             }
         }
+
+        //Modify Word List Methods---------------------------------------------
+        
+        //Modify Word List Menu
 
         //Show Existing Words
         public static int UI_ShowExistingWords(string filePath)
@@ -214,10 +217,44 @@ namespace DN_Lab03_WordGuessGame
                 Console.Write("From UI_ShowExistingWords()");
                 throw;
             }
-            
         }
 
         //Add New Words to List
+        public static void UI_AddNewWord(string filePath)
+        {
+            Console.WriteLine("What word would you like to add?");
+            string inputWord;
+            string verifiedWord;
+
+            inputWord = (Console.ReadLine()).ToLower();
+            if (Regex.IsMatch(inputWord, @"^[a-zA-Z]+$") == true)
+            {
+                verifiedWord = inputWord;
+                AddNewWord(filePath, verifiedWord);
+            }
+            else
+            {
+                Console.WriteLine("Please only use letters without spaces");
+                UI_AddNewWord(filePath);
+                verifiedWord = null;
+            }
+        }
+
+        public static string AddNewWord(string filePath, string verifiedWord )
+        {
+            try
+            {
+                AppendToFile(filePath, verifiedWord);
+                string[] words = SplitWords(filePath);
+                return words[words.Length - 1];
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From AddNewWord()");
+                throw;
+            }
+        }
 
         //Remove Words from List
 
