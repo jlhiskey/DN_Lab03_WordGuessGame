@@ -8,7 +8,8 @@ namespace DN_Lab03_WordGuessGame
         static void Main(string[] args)
         {
             string filePath = "../../../assets/wordList.txt";
-            CreateFile(filePath);
+            //CreateFile(filePath);
+            ReadFile(filePath);
         }
 
         //Home Navigation
@@ -106,7 +107,27 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //ReadFile
+        static void ReadFile(string filePath)
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    Console.WriteLine(lines[i]);
+                }
 
+                foreach (string line in lines)
+                {
+                    Console.WriteLine(line);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+        }
 
         //AppendFile
 
