@@ -16,7 +16,7 @@ namespace DN_Lab03_WordGuessGame
             CheckForWordList(_filePath, initialContent);
 
             //Testing Area
-            UI_AddNewWord(_filePath);
+            UI_RemoveWord(_filePath);
 
             
             Console.ReadLine();
@@ -220,6 +220,7 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Add New Words to List
+        //Allows a user to input a new word. Bound to AddNewWord method.
         public static void UI_AddNewWord(string filePath)
         {
             Console.WriteLine("What word would you like to add?");
@@ -239,7 +240,7 @@ namespace DN_Lab03_WordGuessGame
                 verifiedWord = null;
             }
         }
-
+        // Adds word to list
         public static string AddNewWord(string filePath, string verifiedWord )
         {
             try
@@ -257,6 +258,59 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Remove Words from List
+        // Lists out numbers followed by existing words and asks user to select number. Bound to RemoveWord method.
+        public static void UI_RemoveWord(string filePath)
+        {
+            string[] words = SplitWords(filePath);
+            int userResponse;
+
+            Console.WriteLine("Please enter # of word you would like to remove:");
+            Console.WriteLine();
+            for (int i = 0; i < words.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}) {words[i]}");
+                Console.WriteLine();
+            }
+            try
+            {
+                userResponse = int.Parse(Console.ReadLine());
+                if (userResponse > words.Length)
+                {
+                    Console.WriteLine($"Please enter Integer between 1 and {words.Length}");
+                    userResponse = int.Parse(Console.ReadLine());
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine($"Please enter Integer between 1 and {words.Length}");
+                userResponse = int.Parse(Console.ReadLine());
+            }
+            Console.WriteLine();
+            Console.WriteLine($"You selected {words[userResponse -1]}. Are you sure you want to delete?");
+            Console.WriteLine("Press 1 for YES");
+            Console.WriteLine("Press 2 for NO");
+            try
+            {
+                int confirm = int.Parse(Console.ReadLine());
+                if (userResponse > 2 || userResponse < 1)
+                {
+                    Console.WriteLine($"Please enter Integer.");
+                    Console.WriteLine("Press 1 for YES");
+                    Console.WriteLine("Press 2 for NO");
+                    userResponse = int.Parse(Console.ReadLine());
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine($"Please enter Integer between 1 and {words.Length}");
+                userResponse = int.Parse(Console.ReadLine());
+                //---------------------------------------------------------------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            }
+
+        }
+
+        // Take number and feed it to a delete function.
+
 
 
         //Game Methods---------------------------------------------------------
