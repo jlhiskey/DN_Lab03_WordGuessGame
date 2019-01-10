@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace DN_Lab03_WordGuessGame
 {
@@ -6,7 +7,8 @@ namespace DN_Lab03_WordGuessGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string filePath = "../../../assets/wordList.txt";
+            CreateFile(filePath);
         }
 
         //Home Navigation
@@ -64,8 +66,47 @@ namespace DN_Lab03_WordGuessGame
         //Helper Methods-----------------------------------------------
 
         //CreateFile
+        static void CreateFile(string filePath)
+        {
+            try
+            {
+                using (StreamWriter streamWriter = new StreamWriter(filePath))
+                {
+                    try
+                    {
+                        streamWriter.WriteLine("hello world");
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.Write(e);
+                throw;
+            }
+            catch (NotSupportedException e)
+            {
+                Console.Write(e);
+                throw;
+            }
+            catch (AccessViolationException e)
+            {
+                Console.Write(e);
+                throw;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+        }
 
         //ReadFile
+
 
         //AppendFile
 
