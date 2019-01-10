@@ -151,6 +151,19 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //DeleteFile
+        static void DeleteFile(string filePath)
+        {
+            try
+            {
+                File.Delete(filePath);
+
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+        }
 
         //SplitWords
 
