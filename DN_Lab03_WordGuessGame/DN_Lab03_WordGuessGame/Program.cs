@@ -61,5 +61,17 @@ namespace DN_Lab03_WordGuessGame
 
             //Tell Them They Won
 
+        //Helper Methods-----------------------------------------------
+
+        //CreateFile
+
+        //ReadFile
+
+        //AppendFile
+
+        //DeleteFile
+
+        //SplitWords
+
     }
 }
