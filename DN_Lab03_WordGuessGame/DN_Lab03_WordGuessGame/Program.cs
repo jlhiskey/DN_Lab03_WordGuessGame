@@ -16,7 +16,7 @@ namespace DN_Lab03_WordGuessGame
             CheckForWordList(_filePath, _initialContent);
 
             //Testing Area
-            WordListMenu(_filePath);
+            ParseStringToArray("test");
 
 
             Console.ReadLine();
@@ -65,6 +65,8 @@ namespace DN_Lab03_WordGuessGame
         //Start New Game
 
             //Select Random Word
+
+            //Display underscore char equal to amount of letters in random word.
 
             //Ask User to Input Char
 
@@ -393,6 +395,12 @@ namespace DN_Lab03_WordGuessGame
             UI_ShowExistingWords(filePath);
         }
         // Take number and feed it to a delete function.
+        /// <summary>
+        /// Takes in param "userResponse" and removes the corresponding word from param "filePath" using the SplitWords, DeleteFile, CreateFile and AppendFile methods. It then calls the SplitWords method to recount words in the word list and returns how many words are left in the wordList.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="userResponse"></param>
+        /// <returns>Returns an Integer representing how many words are remaining in the wordList</returns>
         public static int RemoveWord(string filePath, int userResponse)
         {
             try
@@ -446,7 +454,7 @@ namespace DN_Lab03_WordGuessGame
         /// </summary>
         /// <param name="inputArray"></param>
         /// <returns> A concatenated string from input string[].</returns>
-        private static string ParseReadFile(string[] inputArray)
+        private static string ParseReadFileToString(string[] inputArray)
         {
             string parsedData = "";
             try
@@ -477,9 +485,8 @@ namespace DN_Lab03_WordGuessGame
             char[] delimiterCharacters = { ' ' };
             try
             {
-                string wordsFromFile = ParseReadFile(ReadFile(filePath));
+                string wordsFromFile = ParseReadFileToString(ReadFile(filePath));
                 string[] words = wordsFromFile.Split(delimiterCharacters);
-
                 return words;
             }
             catch (Exception e)
@@ -514,6 +521,26 @@ namespace DN_Lab03_WordGuessGame
                 Console.Write("From RandomWord()");
                 throw;
             }
+        }
+        /// <summary>
+        /// Takes in a string from param "original string" and returns and array of characters.
+        /// </summary>
+        /// <param name="originalString"></param>
+        /// <returns>Returns char[]</returns>
+        public static char[] ParseStringToArray(string originalString)
+        {
+            try
+            {
+                Char[] parsedStringArray = originalString.ToCharArray();
+                return parsedStringArray;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From StringToArrayParser()");
+                throw;
+            }
+            
         }
         
     }
