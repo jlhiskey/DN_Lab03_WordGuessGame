@@ -79,7 +79,7 @@
 
     ## Screenshots of Usage
     ### Gameplay
-    ![solution image](solution1.PNG)
+    ![solution image](Solution1.PNG)
 
     ### Word List
-    ![solution image](solution2.PNG)
+    ![solution image](Solution2.PNG)
