@@ -6,75 +6,30 @@ namespace DN_Lab03_WordGuessGame
 {
     public class Program
     {
+        public static int guessTracker = 0;
+        public static char[] alreadyGuessedLetters = new char[26];
+
         public static void Main(string[] args)
         {
             string _filePath = "../../../assets/wordList.txt";
             string _initialContent = "josie cat";
-            
+
 
             // Initalizes wordList file when application is loaded.
-            CheckForWordList(_filePath, _initialContent);
+            UI_GuessALetter();
 
             //Testing Area
-            ParseStringToArray("test");
-
 
             Console.ReadLine();
         }
 
-        //Home Navigation
+        //TODO: Home Navigation Menu
 
-            //Word List
+        //TODO: Word List Link
 
-                //View Words Link
+        //TODO: Start New Game Link
 
-                //Add Word Link
-
-                //Remove Word Link
-
-            //Start New Game
-
-            //Exit Application
-
-        //View Words in External File
-
-            //ReadFile
-
-            //Split Words into Array
-
-            //Print Words
-
-        //Add Word to External File
-
-            //AppendToFile
-
-        //Remove Word from External File
-
-            //ReadFile
-
-            //Split Words into Array
-
-            //Find Word and remove from Array
-
-            //CreateFile
-
-        //Exit Game
-
-            //Home Navigation Link
-
-        //Start New Game
-
-            //Select Random Word
-
-            //Display underscore char equal to amount of letters in random word.
-
-            //Ask User to Input Char
-
-            //Respond With Correct/Incorrect
-
-            //Keep Track of Char Used
-
-            //Tell Them They Won
+        //TODO: Exit Application Link
 
         //Helper Methods-----------------------------------------------
 
@@ -139,7 +94,7 @@ namespace DN_Lab03_WordGuessGame
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
-                
+
                 return lines;
             }
             catch (Exception e)
@@ -148,7 +103,7 @@ namespace DN_Lab03_WordGuessGame
                 Console.Write("From ReadFile");
                 throw;
             }
-            
+
         }
 
         /// <summary>
@@ -173,7 +128,6 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //DeleteFile
         /// <summary>
         /// Deletes a file using the param "filePath".
         /// </summary>
@@ -193,7 +147,6 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Create New wordList if File Doesn't Exist
         /// <summary>
         /// Checks if file exists using the param "filePath". If the file is NOT
         /// </summary>
@@ -220,10 +173,14 @@ namespace DN_Lab03_WordGuessGame
 
         //Modify Word List Methods---------------------------------------------
 
-        //TODO: Modify Word List Menu
+        //TODO: Enable MainMenu link
+        /// <summary>
+        /// Allows the User to view and manipulate the list of words.
+        /// </summary>
+        /// <param name="filePath"></param>
         static void WordListMenu(string filePath)
         {
-            Console.WriteLine("Select 0 to Exit\nSelect 1 To Show Existing Words\nSelect 2 To Add New Words\nSelect 3 To Remove Words");
+            Console.WriteLine("Select 0 to Exit To Main Menu\nSelect 1 To Show Existing Words\nSelect 2 To Add New Words\nSelect 3 To Remove Words");
             Console.WriteLine();
             byte userInput = 0;
 
@@ -261,7 +218,6 @@ namespace DN_Lab03_WordGuessGame
                     break;
             }
         }
-        //Show Existing Words
 
         /// <summary>
         /// Shows the user how many words the person has stored in their wordList.text file. This is done by calling the SplitWords method. It receives an array of words that are in the wordList.txt file. It then prints each word onto the console. It returns an integer indicating how many words on the wordList.
@@ -288,8 +244,6 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Add New Words to List
-
         /// <summary>
         /// Allows a user to input a new word. Using regex it validates that user's input word only contains characters between A-Z. Once validated it inputs the validated word into the AddNewWord method.
         /// </summary>
@@ -313,14 +267,14 @@ namespace DN_Lab03_WordGuessGame
                 verifiedWord = null;
             }
         }
-        
+
         /// <summary>
         /// Adds new string to file using the param "filePath" for file location and the param "verifiedWord" for the new string. It then uses the SplitWords method to retreive all of the words from the filePath and returns the last word added to the wordList. 
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="verifiedWord"></param>
         /// <returns>Word that was added to the wordList.txt file</returns>
-        public static string AddNewWord(string filePath, string verifiedWord )
+        public static string AddNewWord(string filePath, string verifiedWord)
         {
             try
             {
@@ -336,8 +290,6 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Remove Words from List
-        
         /// <summary>
         /// Lists out all existing words found within wordList.txt using the param "filePath" predicated by a numerical value using the SplitWords method. It then askes user to select an integer that corresponds to the adjacent word. Once the input integer has been validated then that integer into the RemoveWord Method. 
         /// </summary>
@@ -370,7 +322,7 @@ namespace DN_Lab03_WordGuessGame
                 userResponse = int.Parse(Console.ReadLine());
             }
             Console.WriteLine();
-            Console.WriteLine($"You selected {words[userResponse -1]}. Are you sure you want to delete?");
+            Console.WriteLine($"You selected {words[userResponse - 1]}. Are you sure you want to delete?");
             Console.WriteLine("Press 1 for YES");
             Console.WriteLine("Press 2 for NO");
             try
@@ -394,7 +346,7 @@ namespace DN_Lab03_WordGuessGame
             RemoveWord(filePath, userResponse - 1);
             UI_ShowExistingWords(filePath);
         }
-        // Take number and feed it to a delete function.
+
         /// <summary>
         /// Takes in param "userResponse" and removes the corresponding word from param "filePath" using the SplitWords, DeleteFile, CreateFile and AppendFile methods. It then calls the SplitWords method to recount words in the word list and returns how many words are left in the wordList.
         /// </summary>
@@ -423,7 +375,7 @@ namespace DN_Lab03_WordGuessGame
                     firstWord = words[1];
                     startingIndex = 2;
                 }
-                
+
                 CreateFile(filePath, firstWord);
                 if (startingIndex < words.Length)
                 {
@@ -444,7 +396,7 @@ namespace DN_Lab03_WordGuessGame
                 Console.Write("From RemoveWord()");
                 throw;
             }
-            
+
         }
 
         // General Use Methods-------------------------------------------------
@@ -473,7 +425,7 @@ namespace DN_Lab03_WordGuessGame
             }
 
         }
-                
+
         /// <summary>
         /// Using the param "filePath" calls ParseReadfile(Readfile(filePath)) which will retreive data from the wordList.txt file then will parse it into a single string and then delimit them using ' ' and will store them into as seperate words in a string[] and will return the populated string[]. 
         /// </summary>
@@ -500,7 +452,6 @@ namespace DN_Lab03_WordGuessGame
 
         //Game Methods---------------------------------------------------------
 
-        //Select a Random Word frow SplitWords Output
         /// <summary>
         /// Using the param "filePath" this method calls the SplitWords method which returns an string[] of stored words. It will then select a random word from the array of words and will return that word.
         /// </summary>
@@ -522,6 +473,7 @@ namespace DN_Lab03_WordGuessGame
                 throw;
             }
         }
+
         /// <summary>
         /// Takes in a string from param "original string" and returns and array of characters.
         /// </summary>
@@ -540,8 +492,76 @@ namespace DN_Lab03_WordGuessGame
                 Console.Write("From StringToArrayParser()");
                 throw;
             }
+        }
+
+        //Start New Game
+        public static void StartNewGame()
+        {
+            guessTracker = 0;
+            Array.Clear(alreadyGuessedLetters, 0, 26);
+
             
         }
-        
+
+        //Select Random Word
+
+        //Display underscore char equal to amount of letters in random word.
+
+        /// <summary>
+        /// Asks user to input a letter and then checks to see if letter has already been guessed. If it hasnt been guessed then it is returned as a char.
+        /// </summary>
+        /// <returns>char</returns>
+        public static char UI_GuessALetter()
+        {
+            string inputLetter;
+            char verifiedLetter;
+
+            Console.WriteLine("Guess A Letter");
+            Console.WriteLine("Already Guessed Letters:");
+            for (int i = 0; i < alreadyGuessedLetters.Length; i++)
+            {
+                Console.Write($"{alreadyGuessedLetters[i]} ");
+            }
+            Console.WriteLine();
+            inputLetter = (Console.ReadLine()).ToLower();
+            if (inputLetter.Length > 1)
+            {
+                Console.WriteLine("Please don't cheat. You can only guess one letter at a time.");
+                UI_GuessALetter();
+            }
+            if (Regex.IsMatch(inputLetter, @"^[a-zA-Z]+$") == true)
+            {
+                verifiedLetter = Char.Parse(inputLetter);
+                for (int i = 0; i < alreadyGuessedLetters.Length; i++)
+                {
+                    if (verifiedLetter == alreadyGuessedLetters[i])
+                    {
+                        Console.WriteLine("Letter has already been guessed.");
+                        UI_GuessALetter();
+                        break;
+                    }
+                }
+                guessTracker = guessTracker + 1;
+                alreadyGuessedLetters[verifiedLetter - 97] = verifiedLetter;
+                return verifiedLetter;
+            }
+            else
+            {
+                Console.WriteLine("Please only use letters without spaces");
+                UI_GuessALetter();
+                verifiedLetter = 'E';
+                return verifiedLetter; 
+            }    
+        }
+        //Exit Game
+
+        //Respond With Correct/Incorrect
+
+        //Keep Track of Char Used
+
+        //Tell Them They Won
+
+        //Ask if they want to play again.
+
     }
 }
