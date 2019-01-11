@@ -6,6 +6,7 @@ namespace DN_Lab03_WordGuessGame
 {
     public class Program
     {
+        //Global Variables
         public static int guessTracker = 0;
         public static int correctLetters = 0;
         public static char[] alreadyGuessedLetters = new char[26];
@@ -15,15 +16,16 @@ namespace DN_Lab03_WordGuessGame
             string _filePath = "../../../assets/wordList.txt";
             string _initialContent = "josie cat";
 
-
             // Initalizes wordList file when application is loaded.
             CheckForWordList(_filePath, _initialContent);
 
+            // Starts UI
             MainMenu(_filePath);
         }
-
-        //TODO: Home Navigation Menu
-
+        /// <summary>
+        /// Provides the user an inital interface to access the word list, start a new game and exit the application.
+        /// </summary>
+        /// <param name="filePath"></param>
         static void MainMenu(string filePath)
         {
             Console.WriteLine("Select 0 to Exit Application\nSelect 1 To Access Word List\nSelect 2 Start New Game");
@@ -56,7 +58,7 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Helper Methods-----------------------------------------------
+        //Helper Methods-------------------------------------------------------------------------------
 
         // File Methods------------------------------------------------
 
@@ -173,7 +175,7 @@ namespace DN_Lab03_WordGuessGame
         }
 
         /// <summary>
-        /// Checks if file exists using the param "filePath". If the file is NOT
+        /// Checks if file exists using the param "filePath". If the file is NOT found will create a file with starter words.
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="content"></param>
@@ -198,11 +200,11 @@ namespace DN_Lab03_WordGuessGame
 
         //Modify Word List Methods---------------------------------------------
 
-        //TODO: Enable MainMenu link
         /// <summary>
         /// Allows the User to view and manipulate the list of words.
         /// </summary>
         /// <param name="filePath"></param>
+        /// 
         static void WordListMenu(string filePath)
         {
             Console.WriteLine("Select 0 to Exit To Main Menu\nSelect 1 To Show Existing Words\nSelect 2 To Add New Words\nSelect 3 To Remove Words");
@@ -526,7 +528,10 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Start New Game
+        /// <summary>
+        /// Starts a new game and resets global variables.
+        /// </summary>
+        /// <param name="filePath"></param>
         public static void StartNewGame(string filePath)
         {
             int confirm = 0;
@@ -604,10 +609,6 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //Select Random Word
-
-        //Display underscore char equal to amount of letters in random word.
-
         /// <summary>
         /// Asks user to input a letter and then checks to see if letter has already been guessed. If it hasnt been guessed then it is returned as a char.
         /// </summary>
@@ -666,7 +667,12 @@ namespace DN_Lab03_WordGuessGame
             return verifiedLetter;  
         } 
 
-        
+        /// <summary>
+        /// When user inputs character will return true if character found in randomWord.
+        /// </summary>
+        /// <param name="randomWord"></param>
+        /// <param name="guess"></param>
+        /// <returns></returns>
         public static bool GuessALetter(char[] randomWord, char guess)
         {   
             for (int i = 0; i < randomWord.Length; i++)
@@ -678,6 +684,5 @@ namespace DN_Lab03_WordGuessGame
             }
             return false;
         }
-        
     }
 }
