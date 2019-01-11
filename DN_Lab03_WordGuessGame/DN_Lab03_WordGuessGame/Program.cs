@@ -399,16 +399,34 @@ namespace DN_Lab03_WordGuessGame
             {
                 string[] words = SplitWords(filePath);
                 DeleteFile(filePath);
-                CreateFile(filePath, "");
-                for (int i = 0; i < words.Length; i++)
+                string firstWord = "gregor";
+
+                if (words.Length == 1)
                 {
-                    if (i != userResponse)
-                    {
-                        AppendToFile(filePath, words[i]);
-                    }
-
+                    Console.WriteLine("You need to have at least one word to play the game. I added one for you ;)");
                 }
-
+                else
+                {
+                    firstWord = words[0];
+                }
+                int startingIndex = 1;
+                if (userResponse == 0 && words.Length > 1)
+                {
+                    firstWord = words[1];
+                    startingIndex = 2;
+                }
+                
+                CreateFile(filePath, firstWord);
+                if (startingIndex < words.Length)
+                {
+                    for (int i = startingIndex; i < words.Length; i++)
+                    {
+                        if (i != userResponse)
+                        {
+                            AppendToFile(filePath, words[i]);
+                        }
+                    }
+                }
                 words = SplitWords(filePath);
                 return words.Length;
             }
