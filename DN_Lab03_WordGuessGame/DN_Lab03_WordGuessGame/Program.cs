@@ -7,6 +7,7 @@ namespace DN_Lab03_WordGuessGame
     public class Program
     {
         public static int guessTracker = 0;
+        public static int correctLetters = 0;
         public static char[] alreadyGuessedLetters = new char[26];
 
         public static void Main(string[] args)
@@ -16,10 +17,10 @@ namespace DN_Lab03_WordGuessGame
 
 
             // Initalizes wordList file when application is loaded.
-            UI_GuessALetter();
+            CheckForWordList(_filePath, _initialContent);
 
             //Testing Area
-
+            StartNewGame(_filePath);
             Console.ReadLine();
         }
 
@@ -343,8 +344,15 @@ namespace DN_Lab03_WordGuessGame
                 Console.WriteLine("Press 2 for NO");
                 confirm = int.Parse(Console.ReadLine());
             }
-            RemoveWord(filePath, userResponse - 1);
-            UI_ShowExistingWords(filePath);
+            if (confirm == 1)
+            {
+                RemoveWord(filePath, userResponse - 1);
+                UI_ShowExistingWords(filePath);
+            }
+            else
+            {
+                WordListMenu(filePath);
+            }
         }
 
         /// <summary>
@@ -495,12 +503,77 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Start New Game
-        public static void StartNewGame()
+        public static void StartNewGame(string filePath)
         {
+            int confirm = 0;
             guessTracker = 0;
             Array.Clear(alreadyGuessedLetters, 0, 26);
+            string randomWordString = RandomWord(filePath);
+            char[] randomWord = ParseStringToArray(randomWordString);
+            string[] gameArray = new string[randomWord.Length];
+            correctLetters = 0;
+            for (int i = 0; i < gameArray.Length; i++)
+            {
+                gameArray[i] = "_";
+            }
+            Console.WriteLine("New Game Beginning");
+            Console.WriteLine("Good Luck");
+            Console.WriteLine();
+            while (correctLetters < randomWord.Length)
+            {
+                Console.WriteLine();
+                for (int i = 0; i < gameArray.Length; i++)
+                {
+                    Console.Write($"{ gameArray[i]} ");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
+                char guess = UI_GuessALetter();
+                GuessALetter(randomWord, guess);
+                for (int i = 0; i < randomWord.Length; i++)
+                {
+                    if (randomWord[i] == guess)
+                    {
+                        gameArray[i] = guess.ToString();
+                        correctLetters = correctLetters + 1;
+                    }
+                }
 
-            
+            }
+            Console.WriteLine();
+            Console.WriteLine($"{randomWordString} is correct!");
+            Console.WriteLine();
+            Console.WriteLine($"You Won! It took you {guessTracker} guesses to figure it out.");
+            Console.WriteLine();
+            Console.WriteLine($"Would You Like To Play Again?");
+            Console.WriteLine("Press 1 for YES");
+            Console.WriteLine("Press 2 for NO");
+            try
+            {
+                confirm = int.Parse(Console.ReadLine());
+                if (confirm > 2 || confirm < 1)
+                {
+                    Console.WriteLine($"Please enter Integer.");
+                    Console.WriteLine("Press 1 for YES");
+                    Console.WriteLine("Press 2 for NO");
+                    confirm = int.Parse(Console.ReadLine());
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Please enter Integer.");
+                Console.WriteLine("Press 1 for YES");
+                Console.WriteLine("Press 2 for NO");
+                confirm = int.Parse(Console.ReadLine());
+            }
+            if (confirm == 1)
+            {
+                StartNewGame(filePath);
+            }
+            else
+            {
+                MainMenu(filePath);
+            }
         }
 
         //Select Random Word
@@ -517,11 +590,13 @@ namespace DN_Lab03_WordGuessGame
             char verifiedLetter;
 
             Console.WriteLine("Guess A Letter");
+            Console.WriteLine();
             Console.WriteLine("Already Guessed Letters:");
             for (int i = 0; i < alreadyGuessedLetters.Length; i++)
             {
                 Console.Write($"{alreadyGuessedLetters[i]} ");
             }
+            Console.WriteLine();
             Console.WriteLine();
             inputLetter = (Console.ReadLine()).ToLower();
             if (inputLetter.Length > 1)
@@ -552,16 +627,25 @@ namespace DN_Lab03_WordGuessGame
                 verifiedLetter = 'E';
                 return verifiedLetter; 
             }    
+        } 
+
+        /// <summary>
+        /// Compares characters in the param "randomWord" to the param "guess" and returns true if equal. 
+        /// </summary>
+        /// <param name="randomWord"></param>
+        /// <param name="guess"></param>
+        /// <returns>true if match found</returns>
+        public static bool GuessALetter(char[] randomWord, char guess)
+        {   
+            for (int i = 0; i < randomWord.Length; i++)
+            {
+                if (randomWord[i] == guess)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
-        //Exit Game
-
-        //Respond With Correct/Incorrect
-
-        //Keep Track of Char Used
-
-        //Tell Them They Won
-
-        //Ask if they want to play again.
-
+        
     }
 }
