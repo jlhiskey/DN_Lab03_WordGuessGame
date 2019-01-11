@@ -19,18 +19,42 @@ namespace DN_Lab03_WordGuessGame
             // Initalizes wordList file when application is loaded.
             CheckForWordList(_filePath, _initialContent);
 
-            //Testing Area
-            StartNewGame(_filePath);
-            Console.ReadLine();
+            MainMenu(_filePath);
         }
 
         //TODO: Home Navigation Menu
 
-        //TODO: Word List Link
+        static void MainMenu(string filePath)
+        {
+            Console.WriteLine("Select 0 to Exit Application\nSelect 1 To Access Word List\nSelect 2 Start New Game");
+            Console.WriteLine();
+            byte userInput = 0;
 
-        //TODO: Start New Game Link
-
-        //TODO: Exit Application Link
+            try
+            {
+                userInput = byte.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Incorrect Format");
+                MainMenu(filePath);
+            }
+            switch (userInput)
+            {
+                case 0:
+                    Environment.Exit(1);
+                    break;
+                case 1:
+                    WordListMenu(filePath);
+                    break;
+                case 2:
+                    StartNewGame(filePath);
+                    break;
+                default:
+                    MainMenu(filePath);
+                    break;
+            }
+        }
 
         //Helper Methods-----------------------------------------------
 
@@ -197,7 +221,7 @@ namespace DN_Lab03_WordGuessGame
             switch (userInput)
             {
                 case 0:
-                    //MainMenu();
+                    MainMenu(filePath);
                     break;
                 case 1:
                     UI_ShowExistingWords(filePath);
@@ -529,6 +553,10 @@ namespace DN_Lab03_WordGuessGame
                 Console.WriteLine();
                 Console.WriteLine();
                 char guess = UI_GuessALetter();
+                if (guess == 'E')
+                {
+                    guess = UI_GuessALetter();
+                }
                 GuessALetter(randomWord, guess);
                 for (int i = 0; i < randomWord.Length; i++)
                 {
@@ -586,8 +614,8 @@ namespace DN_Lab03_WordGuessGame
         /// <returns>char</returns>
         public static char UI_GuessALetter()
         {
-            string inputLetter;
-            char verifiedLetter;
+            string inputLetter = null;
+            char verifiedLetter = 'E';
 
             Console.WriteLine("Guess A Letter");
             Console.WriteLine();
@@ -598,43 +626,47 @@ namespace DN_Lab03_WordGuessGame
             }
             Console.WriteLine();
             Console.WriteLine();
-            inputLetter = (Console.ReadLine()).ToLower();
-            if (inputLetter.Length > 1)
+            try
             {
-                Console.WriteLine("Please don't cheat. You can only guess one letter at a time.");
-                UI_GuessALetter();
-            }
-            if (Regex.IsMatch(inputLetter, @"^[a-zA-Z]+$") == true)
-            {
-                verifiedLetter = Char.Parse(inputLetter);
-                for (int i = 0; i < alreadyGuessedLetters.Length; i++)
+                inputLetter = (Console.ReadLine()).ToLower();
+
+                if (inputLetter.Length == 1)
                 {
-                    if (verifiedLetter == alreadyGuessedLetters[i])
+                    if (Regex.IsMatch(inputLetter, @"^[a-zA-Z]+$") == true)
                     {
-                        Console.WriteLine("Letter has already been guessed.");
-                        UI_GuessALetter();
-                        break;
+                        verifiedLetter = Char.Parse(inputLetter);
+                        for (int i = 0; i < alreadyGuessedLetters.Length; i++)
+                        {
+                            if (verifiedLetter == alreadyGuessedLetters[i])
+                            {
+                                Console.WriteLine("Letter has already been guessed.");
+                                break;
+                            }
+                        }
+                        guessTracker = guessTracker + 1;
+                        alreadyGuessedLetters[verifiedLetter - 97] = verifiedLetter;
+                        return verifiedLetter;
                     }
+                    else
+                    {
+                        Console.WriteLine("Please only use letters without spaces");
+                    }
+                    
                 }
-                guessTracker = guessTracker + 1;
-                alreadyGuessedLetters[verifiedLetter - 97] = verifiedLetter;
-                return verifiedLetter;
+                else
+                {
+                    Console.WriteLine("Don't cheat! Only input one letter");
+                }                             
             }
-            else
+            catch (FormatException)
             {
                 Console.WriteLine("Please only use letters without spaces");
-                UI_GuessALetter();
-                verifiedLetter = 'E';
-                return verifiedLetter; 
-            }    
+                throw;
+            }
+            return verifiedLetter;  
         } 
 
-        /// <summary>
-        /// Compares characters in the param "randomWord" to the param "guess" and returns true if equal. 
-        /// </summary>
-        /// <param name="randomWord"></param>
-        /// <param name="guess"></param>
-        /// <returns>true if match found</returns>
+        
         public static bool GuessALetter(char[] randomWord, char guess)
         {   
             for (int i = 0; i < randomWord.Length; i++)
