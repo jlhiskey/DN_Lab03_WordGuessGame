@@ -6,11 +6,6 @@ namespace DN_Lab03_WordGuessGame
 {
     public class Program
     {
-        //Global Variables
-        public static int guessTracker = 0;
-        public static int correctLetters = 0;
-        public static char[] alreadyGuessedLetters = new char[26];
-
         public static void Main(string[] args)
         {
             string _filePath = "../../../assets/wordList.txt";
@@ -180,7 +175,7 @@ namespace DN_Lab03_WordGuessGame
         /// <param name="filePath"></param>
         /// <param name="content"></param>
         /// <returns> true when sucessful</returns>
-        public static bool CheckForWordList(string filePath, string content)
+        static bool CheckForWordList(string filePath, string content)
         {
             try
             {
@@ -251,15 +246,17 @@ namespace DN_Lab03_WordGuessGame
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns> Integer that indicates how many words are in wordList.txt</returns>
-        public static int UI_ShowExistingWords(string filePath)
+        static int UI_ShowExistingWords(string filePath)
         {
             try
             {
                 string[] words = SplitWords(filePath);
                 Console.WriteLine("Here are the words you currently have saved:");
+                Console.WriteLine();
                 for (int i = 0; i < words.Length; i++)
                 {
-                    Console.WriteLine(words[i]);
+                    Console.WriteLine($"{i + 1}) {words[i]}");
+                    Console.WriteLine();
                 }
                 return words.Length;
             }
@@ -275,7 +272,7 @@ namespace DN_Lab03_WordGuessGame
         /// Allows a user to input a new word. Using regex it validates that user's input word only contains characters between A-Z. Once validated it inputs the validated word into the AddNewWord method.
         /// </summary>
         /// <param name="filePath"></param>
-        public static void UI_AddNewWord(string filePath)
+        static void UI_AddNewWord(string filePath)
         {
             Console.WriteLine("What word would you like to add?");
             string inputWord;
@@ -286,6 +283,8 @@ namespace DN_Lab03_WordGuessGame
             {
                 verifiedWord = inputWord;
                 AddNewWord(filePath, verifiedWord);
+                Console.WriteLine();
+                UI_ShowExistingWords(filePath);
             }
             else
             {
@@ -321,7 +320,7 @@ namespace DN_Lab03_WordGuessGame
         /// Lists out all existing words found within wordList.txt using the param "filePath" predicated by a numerical value using the SplitWords method. It then askes user to select an integer that corresponds to the adjacent word. Once the input integer has been validated then that integer into the RemoveWord Method. 
         /// </summary>
         /// <param name="filePath"></param>
-        public static void UI_RemoveWord(string filePath)
+        static void UI_RemoveWord(string filePath)
         {
             string[] words = SplitWords(filePath);
             int userResponse;
@@ -398,6 +397,7 @@ namespace DN_Lab03_WordGuessGame
                 if (words.Length == 1)
                 {
                     Console.WriteLine("You need to have at least one word to play the game. I added one for you ;)");
+                    Console.WriteLine();
                 }
                 else
                 {
@@ -440,7 +440,7 @@ namespace DN_Lab03_WordGuessGame
         /// </summary>
         /// <param name="inputArray"></param>
         /// <returns> A concatenated string from input string[].</returns>
-        private static string ParseReadFileToString(string[] inputArray)
+        static string ParseReadFileToString(string[] inputArray)
         {
             string parsedData = "";
             try
@@ -527,13 +527,15 @@ namespace DN_Lab03_WordGuessGame
                 throw;
             }
         }
-
+        static int guessTracker = 0;
         /// <summary>
         /// Starts a new game and resets global variables.
         /// </summary>
         /// <param name="filePath"></param>
-        public static void StartNewGame(string filePath)
+        static void StartNewGame(string filePath)
         {
+            int correctLetters = 0;
+            char[] alreadyGuessedLetters = new char[26];
             int confirm = 0;
             guessTracker = 0;
             Array.Clear(alreadyGuessedLetters, 0, 26);
@@ -557,10 +559,10 @@ namespace DN_Lab03_WordGuessGame
                 }
                 Console.WriteLine();
                 Console.WriteLine();
-                char guess = UI_GuessALetter();
+                char guess = UI_GuessALetter(alreadyGuessedLetters);
                 if (guess == 'E')
                 {
-                    guess = UI_GuessALetter();
+                    guess = UI_GuessALetter(alreadyGuessedLetters);
                 }
                 GuessALetter(randomWord, guess);
                 for (int i = 0; i < randomWord.Length; i++)
@@ -613,7 +615,7 @@ namespace DN_Lab03_WordGuessGame
         /// Asks user to input a letter and then checks to see if letter has already been guessed. If it hasnt been guessed then it is returned as a char.
         /// </summary>
         /// <returns>char</returns>
-        public static char UI_GuessALetter()
+        public static char UI_GuessALetter(char[] alreadyGuessedLetters)
         {
             string inputLetter = null;
             char verifiedLetter = 'E';
