@@ -9,16 +9,16 @@ namespace DN_Lab03_WordGuessGame
         public static void Main(string[] args)
         {
             string _filePath = "../../../assets/wordList.txt";
-            string initialContent = "josie cat";
+            string _initialContent = "josie cat";
             
 
-            // Initalized wordList file when application is loaded.
-            CheckForWordList(_filePath, initialContent);
+            // Initalizes wordList file when application is loaded.
+            CheckForWordList(_filePath, _initialContent);
 
             //Testing Area
-            UI_RemoveWord(_filePath);
+            WordListMenu(_filePath);
 
-            
+
             Console.ReadLine();
         }
 
@@ -78,7 +78,11 @@ namespace DN_Lab03_WordGuessGame
 
         // File Methods------------------------------------------------
 
-        //CreateFile
+        /// <summary>
+        /// Creates a text file using the params "filePath" which designates where the file will be stored and the param "content" which will add text to that file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="content"></param>
         public static void CreateFile(string filePath, string content)
         {
             try
@@ -123,7 +127,11 @@ namespace DN_Lab03_WordGuessGame
             }
         }
 
-        //ReadFile
+        /// <summary>
+        /// Retreives a file using the param "filePath" and returns a string[] with each line of the text document.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns> string[] lines </returns>
         public static string[] ReadFile(string filePath)
         {
             try
@@ -140,8 +148,12 @@ namespace DN_Lab03_WordGuessGame
             }
             
         }
-        
-        //AppendFile
+
+        /// <summary>
+        /// Retreives a file using the param "filePath" and adds a string to the existing file using the param "newWord" Note: The new string will be added to the existing document with a 1 space of seperation from the end of the existing document. 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="newWord"></param>
         public static void AppendToFile(string filePath, string newWord)
         {
             try
@@ -160,6 +172,10 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //DeleteFile
+        /// <summary>
+        /// Deletes a file using the param "filePath".
+        /// </summary>
+        /// <param name="filePath"></param>
         public static void DeleteFile(string filePath)
         {
             try
@@ -176,6 +192,12 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Create New wordList if File Doesn't Exist
+        /// <summary>
+        /// Checks if file exists using the param "filePath". If the file is NOT
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="content"></param>
+        /// <returns> true when sucessful</returns>
         public static bool CheckForWordList(string filePath, string content)
         {
             try
@@ -195,10 +217,55 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Modify Word List Methods---------------------------------------------
-        
-        //Modify Word List Menu
 
+        //TODO: Modify Word List Menu
+        static void WordListMenu(string filePath)
+        {
+            Console.WriteLine("Select 0 to Exit\nSelect 1 To Show Existing Words\nSelect 2 To Add New Words\nSelect 3 To Remove Words");
+            Console.WriteLine();
+            byte userInput = 0;
+
+            try
+            {
+                userInput = byte.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Incorrect Format");
+                WordListMenu(filePath);
+            }
+            switch (userInput)
+            {
+                case 0:
+                    //MainMenu();
+                    break;
+                case 1:
+                    UI_ShowExistingWords(filePath);
+                    Console.WriteLine();
+                    WordListMenu(filePath);
+                    break;
+                case 2:
+                    UI_AddNewWord(filePath);
+                    Console.WriteLine();
+                    WordListMenu(filePath);
+                    break;
+                case 3:
+                    UI_RemoveWord(filePath);
+                    Console.WriteLine();
+                    WordListMenu(filePath);
+                    break;
+                default:
+                    WordListMenu(filePath);
+                    break;
+            }
+        }
         //Show Existing Words
+
+        /// <summary>
+        /// Shows the user how many words the person has stored in their wordList.text file. This is done by calling the SplitWords method. It receives an array of words that are in the wordList.txt file. It then prints each word onto the console. It returns an integer indicating how many words on the wordList.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns> Integer that indicates how many words are in wordList.txt</returns>
         public static int UI_ShowExistingWords(string filePath)
         {
             try
@@ -220,7 +287,11 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Add New Words to List
-        //Allows a user to input a new word. Bound to AddNewWord method.
+
+        /// <summary>
+        /// Allows a user to input a new word. Using regex it validates that user's input word only contains characters between A-Z. Once validated it inputs the validated word into the AddNewWord method.
+        /// </summary>
+        /// <param name="filePath"></param>
         public static void UI_AddNewWord(string filePath)
         {
             Console.WriteLine("What word would you like to add?");
@@ -240,7 +311,13 @@ namespace DN_Lab03_WordGuessGame
                 verifiedWord = null;
             }
         }
-        // Adds word to list
+        
+        /// <summary>
+        /// Adds new string to file using the param "filePath" for file location and the param "verifiedWord" for the new string. It then uses the SplitWords method to retreive all of the words from the filePath and returns the last word added to the wordList. 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="verifiedWord"></param>
+        /// <returns>Word that was added to the wordList.txt file</returns>
         public static string AddNewWord(string filePath, string verifiedWord )
         {
             try
@@ -258,11 +335,16 @@ namespace DN_Lab03_WordGuessGame
         }
 
         //Remove Words from List
-        // Lists out numbers followed by existing words and asks user to select number. Bound to RemoveWord method.
+        
+        /// <summary>
+        /// Lists out all existing words found within wordList.txt using the param "filePath" predicated by a numerical value using the SplitWords method. It then askes user to select an integer that corresponds to the adjacent word. Once the input integer has been validated then that integer into the RemoveWord Method. 
+        /// </summary>
+        /// <param name="filePath"></param>
         public static void UI_RemoveWord(string filePath)
         {
             string[] words = SplitWords(filePath);
             int userResponse;
+            int confirm;
 
             Console.WriteLine("Please enter # of word you would like to remove:");
             Console.WriteLine();
@@ -291,31 +373,61 @@ namespace DN_Lab03_WordGuessGame
             Console.WriteLine("Press 2 for NO");
             try
             {
-                int confirm = int.Parse(Console.ReadLine());
-                if (userResponse > 2 || userResponse < 1)
+                confirm = int.Parse(Console.ReadLine());
+                if (confirm > 2 || confirm < 1)
                 {
                     Console.WriteLine($"Please enter Integer.");
                     Console.WriteLine("Press 1 for YES");
                     Console.WriteLine("Press 2 for NO");
-                    userResponse = int.Parse(Console.ReadLine());
+                    confirm = int.Parse(Console.ReadLine());
                 }
             }
             catch (FormatException)
             {
-                Console.WriteLine($"Please enter Integer between 1 and {words.Length}");
-                userResponse = int.Parse(Console.ReadLine());
-                //---------------------------------------------------------------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                Console.WriteLine("Please enter Integer.");
+                Console.WriteLine("Press 1 for YES");
+                Console.WriteLine("Press 2 for NO");
+                confirm = int.Parse(Console.ReadLine());
             }
+            RemoveWord(filePath, userResponse - 1);
+            UI_ShowExistingWords(filePath);
+        }
+        // Take number and feed it to a delete function.
+        public static int RemoveWord(string filePath, int userResponse)
+        {
+            try
+            {
+                string[] words = SplitWords(filePath);
+                DeleteFile(filePath);
+                CreateFile(filePath, "");
+                for (int i = 0; i < words.Length; i++)
+                {
+                    if (i != userResponse)
+                    {
+                        AppendToFile(filePath, words[i]);
+                    }
 
+                }
+
+                words = SplitWords(filePath);
+                return words.Length;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                Console.Write("From RemoveWord()");
+                throw;
+            }
+            
         }
 
-        // Take number and feed it to a delete function.
+        // General Use Methods-------------------------------------------------
 
-
-
-        //Game Methods---------------------------------------------------------
-
-        //Parses ReadFile Output into strings
+        /// <summary>
+        /// Receives an string[] and returns a concatenated string from input array.
+        /// </summary>
+        /// <param name="inputArray"></param>
+        /// <returns> A concatenated string from input string[].</returns>
         private static string ParseReadFile(string[] inputArray)
         {
             string parsedData = "";
@@ -335,8 +447,12 @@ namespace DN_Lab03_WordGuessGame
             }
 
         }
-
-        //SplitWords
+                
+        /// <summary>
+        /// Using the param "filePath" calls ParseReadfile(Readfile(filePath)) which will retreive data from the wordList.txt file then will parse it into a single string and then delimit them using ' ' and will store them into as seperate words in a string[] and will return the populated string[]. 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static string[] SplitWords(string filePath)
         {
             // Using space as my delimiter. Might add more if needed.
@@ -354,9 +470,17 @@ namespace DN_Lab03_WordGuessGame
                 Console.Write("From SplitWords()");
                 throw;
             }
-            
+
         }
+
+        //Game Methods---------------------------------------------------------
+
         //Select a Random Word frow SplitWords Output
+        /// <summary>
+        /// Using the param "filePath" this method calls the SplitWords method which returns an string[] of stored words. It will then select a random word from the array of words and will return that word.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static string RandomWord(string filePath)
         {
             try
