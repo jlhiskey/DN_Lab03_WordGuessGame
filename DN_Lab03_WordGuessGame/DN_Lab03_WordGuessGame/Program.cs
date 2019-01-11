@@ -564,7 +564,17 @@ namespace DN_Lab03_WordGuessGame
                 {
                     guess = UI_GuessALetter(alreadyGuessedLetters);
                 }
-                GuessALetter(randomWord, guess);
+                bool isCorrect = GuessALetter(randomWord, guess);
+                if ( isCorrect== true)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{guess} was correct!");
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{guess} was incorrect.");
+                }
                 for (int i = 0; i < randomWord.Length; i++)
                 {
                     if (randomWord[i] == guess)
@@ -576,7 +586,7 @@ namespace DN_Lab03_WordGuessGame
 
             }
             Console.WriteLine();
-            Console.WriteLine($"{randomWordString} is correct!");
+            Console.WriteLine($"{randomWordString} is the word!");
             Console.WriteLine();
             Console.WriteLine($"You Won! It took you {guessTracker} guesses to figure it out.");
             Console.WriteLine();

@@ -29,12 +29,57 @@
 ## Example Usage
 - When you run app.
     - Welcome to Word Guess Game:
-      - Select 0 for 
-      - Select 1 for 
-      - Select 2 for 
-      - Select 3 for 
-      - Select 4 for 
-        
+    - Main Menu
+      - Select 0 to Exit Application
+        - Exits Application
+      - Select 1 To Access Word List Menu
+        - Access Word 1List
+          - Select 0 to Exit To Main Menu
+            - Returns to Main Menu
+          - Select 1 To Show Existing Words
+            - Displays a list of saved words.
+            - Returns to Access Word List Menu
+          - Select 2 To Add New Word
+            - Asks for user input (STRING A-Z) of new word.
+            - Displays a list of saved words.
+            - Returns to Access Word List Menu
+          - Select 3 To Remove Word
+            - Displays a list of saved words.
+            - Asks for user input (INTEGER) of which word they want to delete.
+              - Displays selected word and asks if you are sure you want to delete.
+                - Select 1 for Yes
+                  -  Displays a list of saved words.
+                  - Returns to Access Word List Menu
+                - Select 2 for No
+                  -  - Returns to Access Word List Menu
+      - Select 2 to Start New Game
+        - New Game
+          - Displays _ _ _ equal to how many letters there are in random word chosen from Word List.
+          - Displays already guessed letters arranged alphabetically.
+          - Asks for user input (SINGLE CHARACTER) to guess a letter.
+            - If Correct
+              - Displays (selected letter) was correct!
+              - Displays _ _ _ equal to how many letters there are in random word chosen from Word List.
+              - Displays already guessed letters arranged alphabetically.
+              - Asks for user input (SINGLE CHARACTER) to guess a letter.
+            - If Incorrect
+              - Displays (selected letter) was incorrect.
+              - Displays _ _ _ equal to how many letters there are in random word chosen from Word List.
+              - Displays already guessed letters arranged alphabetically.
+              - Asks for user input (SINGLE CHARACTER) to guess a letter. 
+          - Winning the Game
+            - Once all correct characters have been guessed you win!
+              - Displays (correct word) is the word!
+              - Displays You Won! It took you (number of guesses) guesses to figure it out.
+              - Displays Would You Like To Play Again?
+                - Select 1 for Yes
+                  -  Start New Game with new random word.
+                - Select 2 for No
+                  -  Returns to Main Menu
 
-    ## Screenshot of Usage
-![solution image](Solution.PNG)
+    ## Screenshots of Usage
+    ### Gameplay
+    ![solution image](solution1.PNG)
+
+    ### Word List
+    ![solution image](solution2.PNG)
